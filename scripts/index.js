@@ -1,32 +1,35 @@
 // @todo: Темплейт карточки
 const cardTemplate = document.querySelector("#card-template").content;
 // @todo: DOM узлы
-const cardWrapper = document.querySelector(".places__list");
+const cardContainer = document.querySelector(".places__list");
+
 // @todo: Функция создания карточки
-const generateCard = (name, link, eventCallback) => {
+const createCard = (cardTitle, cardImageUrl, deleteCallback) => {
   const cardElement = cardTemplate.cloneNode(true).querySelector(".card");
+
   // Находим нужные элементы внутри клонированного шаблона
-  const image = cardElement.querySelector(".card__image");
-  const deleteButton = cardElement.querySelector(".card__delete-button");
-  const title = cardElement.querySelector(".card__title");
+  const imageElement = cardElement.querySelector(".card__image");
+  const deleteButtonElement = cardElement.querySelector(".card__delete-button");
+  const titleElement = cardElement.querySelector(".card__title");
+
   // Устанавливаем текст и атрибуты элементов
-  // Устанавливаем текст и атрибуты элементов
-  title.textContent = name; // Для текста удобнее использовать textContent
-  image.setAttribute("alt", name);
-  image.setAttribute("src", link);
+  titleElement.textContent = cardTitle;
+  imageElement.setAttribute("alt", cardTitle);
+  imageElement.setAttribute("src", cardImageUrl);
+
   // Добавляем обработчик события для кнопки удаления
-  deleteButton.addEventListener("click", eventCallback);
+  deleteButtonElement.addEventListener("click", deleteCallback);
+
   // Возвращаем созданный элемент карточки
   return cardElement;
 };
 
 // @todo: Функция удаления карточки
-const terminateCard = (evt) => {
-  evt.target.closest(".card").remove();
+const handleCardDelete = (event) => {
+  event.target.closest(".card").remove();
 };
-// @todo: Вывести карточки на страницу
 
-// Вывести карточки на страницу
+// @todo: Вывести карточки на страницу
 initialCards.forEach((item) => {
-  cardWrapper.append(generateCard(item.name, item.link, terminateCard));
+  cardContainer.append(createCard(item.name, item.link, handleCardDelete));
 });

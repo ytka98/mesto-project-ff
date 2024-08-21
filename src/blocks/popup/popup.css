@@ -18,7 +18,11 @@
 
 .popup {
   font-family: Inter, Arial, sans-serif;
-  display: none;
+  visibility: hidden; /* заменил display: none на visibility: hidden, который делает элемент невидимым, но он все еще занимает место на странице. */
+  opacity: 0; /* устанавил прозрачность элемента на 0, делая его полностью прозрачным. */
+  transition:
+    visibility 0s,
+    opacity 0.5s linear; /* задал анимацию, которая делает прозрачность плавной в течение 0.5 секунд, но для `visibility` переход моментальный (0 секунд) */
   align-items: center;
   justify-content: center;
   background-color: rgb(0 0 0 / 0.5);

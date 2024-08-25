@@ -1,6 +1,6 @@
 import "../pages/index.css";
 import { initialCards } from "./cards.js";
-import { createCard, onDeleteCard } from "../components/card.js";
+import { createCard, onDeleteCard, toggleLike } from "../components/card.js";
 import { showPopup, closePopup } from "../components/modal.js";
 
 // ИНПУТЫ ПРОФИЛЯ
@@ -24,10 +24,7 @@ const popupImage = imagePopup.querySelector(".popup__image");
 const popupCaption = imagePopup.querySelector(".popup__caption");
 
 addCardBtn.addEventListener("click", () => showPopup(newCardPopup));
-
-editProfileBtn.addEventListener("click", () =>
-  fillProfileForm(editProfilePopup),
-);
+editProfileBtn.addEventListener("click", () => fillProfileForm(editProfilePopup));
 
 // РЕДАКТИРОВАНИЕ ПРОФИЛЯ В ПОПАПЕ ДЛЯ РЕДАКТИРОВАНИЯ
 function fillProfileForm(popup) {
@@ -57,7 +54,7 @@ function handleNewCardFormSubmit(evt) {
   evt.preventDefault();
   const newCard = { name: cardTitleInput.value, link: cardUrlInput.value };
   cardsList.prepend(
-    createCard(newCard.name, newCard.link, onDeleteCard, openImagePopup),
+    createCard(newCard.name, newCard.link, onDeleteCard, openImagePopup, toggleLike),
   );
   document.forms["new-place"].reset();
   closePopup(newCardPopup);
@@ -67,6 +64,6 @@ newCardPopup.addEventListener("submit", handleNewCardFormSubmit);
 
 initialCards.forEach((item) => {
   cardsList.append(
-    createCard(item.name, item.link, onDeleteCard, openImagePopup),
+    createCard(item.name, item.link, onDeleteCard, openImagePopup, toggleLike),
   );
 });

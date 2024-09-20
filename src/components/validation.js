@@ -7,6 +7,7 @@
  * @param {string} obj.inactiveButtonClass - Класс для неактивной кнопки.
  * @param {string} obj.inputErrorClass - Класс для невалидного инпута.
  * @param {string} obj.errorClass - Класс для отображения ошибки.
+ * @param {string} inputElement.id - ID инпута, который используется для поиска элемента ошибки через селектор `.id-error`
  */
 export const enableValidation = (obj) => {
   const formList = Array.from(document.querySelectorAll(obj.formSelector));
@@ -29,7 +30,12 @@ const isValid = (formElement, inputElement, obj) => {
   }
 
   if (!inputElement.validity.valid) {
-    showInputError(formElement, inputElement, inputElement.validationMessage, obj);
+    showInputError(
+      formElement,
+      inputElement,
+      inputElement.validationMessage,
+      obj,
+    );
   } else {
     hideInputError(formElement, inputElement, obj);
   }
@@ -68,7 +74,9 @@ const toggleButtonState = (inputList, buttonElement, obj) => {
  * @param {Object} obj - Объект с параметрами для настройки валидации.
  */
 const setEventListeners = (formElement, obj) => {
+  // Найдём все поля формы и сделаем из них массив
   const inputList = Array.from(formElement.querySelectorAll(obj.inputSelector));
+  // Найдём в текущей форме кнопку отправки
   const buttonElement = formElement.querySelector(obj.submitButtonSelector);
 
   toggleButtonState(inputList, buttonElement, obj);
@@ -76,6 +84,7 @@ const setEventListeners = (formElement, obj) => {
   inputList.forEach((inputElement) => {
     inputElement.addEventListener("input", () => {
       isValid(formElement, inputElement, obj);
+      // Вызовем toggleButtonState и передадим ей массив полей и кнопку + объект с параментарми настройки валидации obj
       toggleButtonState(inputList, buttonElement, obj);
     });
   });
@@ -89,6 +98,7 @@ const setEventListeners = (formElement, obj) => {
  * @param {Object} obj - Объект с параметрами для настройки валидации.
  */
 const showInputError = (formElement, inputElement, errorMessage, obj) => {
+  // Находим элемент ошибки по id инпута и добавленному к нему суффиксу "-error"
   const errorElement = formElement.querySelector(`.${inputElement.id}-error`);
   inputElement.classList.add(obj.inputErrorClass);
   errorElement.textContent = errorMessage;

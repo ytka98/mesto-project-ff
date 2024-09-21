@@ -7,21 +7,21 @@ const config = {
   },
 };
 
-// Тест для запроса данных
-const fetchData = async () => {
-  try {
-    const response = await fetch(config.baseUrl, {
-      headers: config.headers,
-    });
-    if (!response.ok) {
-      throw new Error(`HTTP error! Status: ${response.status}`);
-    }
-    const result = await response.json();
-    console.log(result); // Выводим результат запроса в консоль
-  } catch (error) {
-    console.error("Ошибка при запросе данных:", error); // Обработка ошибок
-  }
-};
+// // Тест для запроса данных
+// const fetchData = async () => {
+//   try {
+//     const response = await fetch(config.baseUrl, {
+//       headers: config.headers,
+//     });
+//     if (!response.ok) {
+//       throw new Error(`HTTP error! Status: ${response.status}`);
+//     }
+//     const result = await response.json();
+//     console.log(result); // Выводим результат запроса в консоль
+//   } catch (error) {
+//     console.error("Ошибка при запросе данных:", error); // Обработка ошибок
+//   }
+// };
 
 const checkResponseStatus = (res) => {
   if (res.ok) {
@@ -122,7 +122,7 @@ const deleteLike = (cardId) => {
 
 // Экспортируем функции и конфигурацию
 export {
-  fetchData,
+  // fetchData,
   fetchInitialCards,
   fetchCurrentUserProfile,
   createNewCard,

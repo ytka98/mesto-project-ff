@@ -1,5 +1,6 @@
 // ОТКРЫТИЕ ПОПАПА ДЛЯ НОВОЙ КАРТОЧКИ И ДЛЯ РЕДАКТИРВОАНИЯ ПРОФИЛЯ
 const showPopup = (popup) => {
+  console.log('Попап открывается:', popup);
   popup.classList.add("popup_is-opened");
   popup.addEventListener("click", handleClickOutsidePopup);
   document.addEventListener("keydown", handleEscKeyPress);

@@ -125,6 +125,7 @@ const hideInputError = (formElement, inputElement, obj) => {
  * @param {Object} obj - Объект с параметрами для настройки валидации.
  */
 export const clearValidation = (formElement, obj) => {
+  
   const inputList = Array.from(formElement.querySelectorAll(obj.inputSelector));
   const buttonElement = formElement.querySelector(obj.submitButtonSelector);
 

@@ -40,7 +40,6 @@
  * @param {Function} clearValidation - Функция для очистки ошибок валидации формы.
  * @param {Function} createNewContentCardPopup - Функция для открытия попапа с изображением карточки.
  */
-
 import "../pages/index.css";
 import { createCard } from "../components/card.js";
 import { showPopup, closePopup } from "../components/modal.js";
@@ -89,7 +88,7 @@ const popupCaption = imagePopup.querySelector(".popup__caption");
 // АВАТАР ПРОФИЛЯ
 const profileAvatar = document.querySelector(".profile__image");
 const avatarPopupLink = avatarEditPopup.querySelector(
-  ".popup__input_type_edit_avatar",
+  ".popup__input_type_edit_avatar"
 );
 
 const defaultValidationConfig = {
@@ -110,6 +109,7 @@ function renderLoading(isLoading, popup) {
   submitButton.textContent = isLoading ? "Сохранение..." : "Сохранить";
 }
 
+// Получаем данные профиля и карточки с сервера
 Promise.all([fetchCurrentUserProfile(), fetchInitialCards()])
   .then(([profileData, cards]) => {
     userId = profileData._id;
@@ -126,7 +126,7 @@ Promise.all([fetchCurrentUserProfile(), fetchInitialCards()])
         deleteFromServer,
         addLike,
         deleteLike,
-        createNewContentCardPopup,
+        createNewContentCardPopup
       );
       cardsList.append(cardElement);
     });
@@ -135,31 +135,29 @@ Promise.all([fetchCurrentUserProfile(), fetchInitialCards()])
     console.log(err);
   });
 
+// Включаем валидацию
 enableValidation(defaultValidationConfig);
 
-addCardBtn.addEventListener("click", () => showPopup(newCardPopup));
-
-editProfileBtn.addEventListener("click", () =>
-  fillProfilePopup(editProfilePopup),
-);
-
-function fillProfilePopup(popup) {
+// Обработчик открытия попапа редактирования профиля
+editProfileBtn.addEventListener("click", () => {
   nameField.value = profileTitle.textContent;
   jobField.value = profileDescription.textContent;
-  clearValidation(popup);
-}
+  clearValidation(editProfilePopup, defaultValidationConfig); // Очищаем валидацию
+  showPopup(editProfilePopup); // Открываем попап
+});
 
+// Обработчик отправки формы редактирования профиля
 function handleProfileUpdateForm(event) {
   event.preventDefault();
   renderLoading(true, editProfilePopup);
   editProfile({
-    name: `${nameField.value}`,
-    about: `${jobField.value}`,
+    name: nameField.value,  // Берем значения из полей ввода
+    about: jobField.value,
   })
     .then((data) => {
       profileTitle.textContent = data.name;
       profileDescription.textContent = data.about;
-      closePopup(editProfilePopup);
+      closePopup(editProfilePopup);  // Закрываем попап после успешного запроса
     })
     .catch((err) => {
       console.log(`Ошибка fetch запроса изменения профиля: ${err}`);
@@ -169,18 +167,26 @@ function handleProfileUpdateForm(event) {
     });
 }
 
+// Привязываем форму редактирования профиля к событию submit
 editProfilePopup.addEventListener("submit", handleProfileUpdateForm);
 
+// Открытие попапа для добавления новой карточки
+addCardBtn.addEventListener('click', () => {
+  clearValidation(newCardPopup, defaultValidationConfig);  // Очищаем валидацию перед открытием
+  showPopup(newCardPopup);  // Открываем попап добавления новой карточки
+});
+
+// Обработчик отправки формы добавления карточки
 function handleNewCardForm(event) {
   event.preventDefault();
   renderLoading(true, newCardPopup);
   createNewCard({
-    name: `${cardTitleInput.value}`,
-    link: `${cardUrlInput.value}`,
+    name: cardTitleInput.value,
+    link: cardUrlInput.value,
   })
-    .then((cards) => {
+    .then((card) => {
       const cardElement = createCard(
-        cards,
+        card,
         userId,
         cardTemplate,
         showPopup,
@@ -188,33 +194,40 @@ function handleNewCardForm(event) {
         deleteFromServer,
         addLike,
         deleteLike,
-        createNewContentCardPopup,
+        createNewContentCardPopup
       );
-      document.forms["new-place"].reset();
-      closePopup(newCardPopup);
-      clearValidation(newCardPopup, defaultValidationConfig);
+      cardsList.prepend(cardElement);
+      document.forms["new-place"].reset();  // Очищаем форму
+      closePopup(newCardPopup);  // Закрываем попап
+      clearValidation(newCardPopup, defaultValidationConfig);  // Очищаем валидацию
     })
     .catch((err) => {
-      console.log(`Ошибка fetch запроса создания новой карточки: ${err}`);
+      console.log(`Ошибка fetch запроса создания новой карточки: ${err}`);
     })
     .finally(() => {
       renderLoading(false, newCardPopup);
     });
 }
 
+// Привязываем форму добавления карточки к событию submit
 newCardPopup.addEventListener("submit", handleNewCardForm);
 
-profileAvatar.addEventListener("click", () => showPopup(avatarEditPopup));
+// Открытие попапа редактирования аватара
+profileAvatar.addEventListener("click", () => {
+  clearValidation(avatarEditPopup, defaultValidationConfig);  // Очищаем валидацию
+  showPopup(avatarEditPopup);  // Открываем попап редактирования аватара
+});
 
+// Обработчик изменения аватара
 function changeAvatar(event) {
   event.preventDefault();
   renderLoading(true, avatarEditPopup);
-  editAvatar({ avatar: `${avatarPopupLink.value}` })
+  editAvatar({ avatar: avatarPopupLink.value })
     .then((data) => {
       profileAvatar.style.backgroundImage = `url('${data.avatar}')`;
-      closePopup(avatarEditPopup);
-      document.forms["edit-avatar-form"].reset();
-      clearValidation(avatarEditPopup, defaultValidationConfig);
+      closePopup(avatarEditPopup);  // Закрываем попап
+      document.forms["edit-avatar-form"].reset();  // Очищаем форму
+      clearValidation(avatarEditPopup, defaultValidationConfig);  // Очищаем валидацию
     })
     .catch((err) => {
       console.log(`Ошибка fetch запроса изменения аватара: ${err}`);
@@ -224,8 +237,10 @@ function changeAvatar(event) {
     });
 }
 
+// Привязываем форму редактирования аватара к событию submit
 avatarEditPopup.addEventListener("submit", changeAvatar);
 
+// Открытие попапа с изображением карточки
 function createNewContentCardPopup(link, name) {
   popupImage.src = link;
   popupImage.alt = name;
@@ -233,4 +248,5 @@ function createNewContentCardPopup(link, name) {
   showPopup(imagePopup);
 }
 
-fetchData();
+// // Вызываем начальную загрузку данных
+// fetchData();

@@ -88,7 +88,7 @@ const popupCaption = imagePopup.querySelector(".popup__caption");
 // АВАТАР ПРОФИЛЯ
 const profileAvatar = document.querySelector(".profile__image");
 const avatarPopupLink = avatarEditPopup.querySelector(
-  ".popup__input_type_edit_avatar"
+  ".popup__input_type_edit_avatar",
 );
 
 const defaultValidationConfig = {
@@ -117,6 +117,7 @@ Promise.all([fetchCurrentUserProfile(), fetchInitialCards()])
     profileDescription.textContent = profileData.about;
     profileAvatar.style.backgroundImage = `url('${profileData.avatar}')`;
     cards.forEach((cardData) => {
+      console.log(cardData.link);
       const cardElement = createCard(
         cardData,
         userId,
@@ -126,7 +127,7 @@ Promise.all([fetchCurrentUserProfile(), fetchInitialCards()])
         deleteFromServer,
         addLike,
         deleteLike,
-        createNewContentCardPopup
+        createNewContentCardPopup,
       );
       cardsList.append(cardElement);
     });
@@ -151,13 +152,13 @@ function handleProfileUpdateForm(event) {
   event.preventDefault();
   renderLoading(true, editProfilePopup);
   editProfile({
-    name: nameField.value,  // Берем значения из полей ввода
+    name: nameField.value, // Берем значения из полей ввода
     about: jobField.value,
   })
     .then((data) => {
       profileTitle.textContent = data.name;
       profileDescription.textContent = data.about;
-      closePopup(editProfilePopup);  // Закрываем попап после успешного запроса
+      closePopup(editProfilePopup); // Закрываем попап после успешного запроса
     })
     .catch((err) => {
       console.log(`Ошибка fetch запроса изменения профиля: ${err}`);
@@ -171,9 +172,9 @@ function handleProfileUpdateForm(event) {
 editProfilePopup.addEventListener("submit", handleProfileUpdateForm);
 
 // Открытие попапа для добавления новой карточки
-addCardBtn.addEventListener('click', () => {
-  clearValidation(newCardPopup, defaultValidationConfig);  // Очищаем валидацию перед открытием
-  showPopup(newCardPopup);  // Открываем попап добавления новой карточки
+addCardBtn.addEventListener("click", () => {
+  clearValidation(newCardPopup, defaultValidationConfig); // Очищаем валидацию перед открытием
+  showPopup(newCardPopup); // Открываем попап добавления новой карточки
 });
 
 // Обработчик отправки формы добавления карточки
@@ -194,12 +195,12 @@ function handleNewCardForm(event) {
         deleteFromServer,
         addLike,
         deleteLike,
-        createNewContentCardPopup
+        createNewContentCardPopup,
       );
       cardsList.prepend(cardElement);
-      document.forms["new-place"].reset();  // Очищаем форму
-      closePopup(newCardPopup);  // Закрываем попап
-      clearValidation(newCardPopup, defaultValidationConfig);  // Очищаем валидацию
+      document.forms["new-place"].reset(); // Очищаем форму
+      closePopup(newCardPopup); // Закрываем попап
+      clearValidation(newCardPopup, defaultValidationConfig); // Очищаем валидацию
     })
     .catch((err) => {
       console.log(`Ошибка fetch запроса создания новой карточки: ${err}`);
@@ -214,8 +215,8 @@ newCardPopup.addEventListener("submit", handleNewCardForm);
 
 // Открытие попапа редактирования аватара
 profileAvatar.addEventListener("click", () => {
-  clearValidation(avatarEditPopup, defaultValidationConfig);  // Очищаем валидацию
-  showPopup(avatarEditPopup);  // Открываем попап редактирования аватара
+  clearValidation(avatarEditPopup, defaultValidationConfig); // Очищаем валидацию
+  showPopup(avatarEditPopup); // Открываем попап редактирования аватара
 });
 
 // Обработчик изменения аватара
@@ -225,9 +226,9 @@ function changeAvatar(event) {
   editAvatar({ avatar: avatarPopupLink.value })
     .then((data) => {
       profileAvatar.style.backgroundImage = `url('${data.avatar}')`;
-      closePopup(avatarEditPopup);  // Закрываем попап
-      document.forms["edit-avatar-form"].reset();  // Очищаем форму
-      clearValidation(avatarEditPopup, defaultValidationConfig);  // Очищаем валидацию
+      closePopup(avatarEditPopup); // Закрываем попап
+      document.forms["edit-avatar-form"].reset(); // Очищаем форму
+      clearValidation(avatarEditPopup, defaultValidationConfig); // Очищаем валидацию
     })
     .catch((err) => {
       console.log(`Ошибка fetch запроса изменения аватара: ${err}`);
@@ -249,4 +250,4 @@ function createNewContentCardPopup(link, name) {
 }
 
 // // Вызываем начальную загрузку данных
-// fetchData();
+fetchData();

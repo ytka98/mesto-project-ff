@@ -32,10 +32,7 @@
         <!-- Профиль пользователя -->
         <section class="profile page__section">
           <!-- Аватар пользователя -->
-          <div
-            class="profile__image"
-            style="background-image: url(<%=require(`./images/avatar.jpg`)%>)"
-          ></div>
+          <div class="profile__image"></div>
           <!-- Информация о пользователе -->
           <div class="profile__info">
             <!-- УДАЛИЛ ЗАХАРДКОЖЕННОЕ ИМЯ ПОЛЬЗОВАТЕЛЯ -->
@@ -128,7 +125,7 @@
           </form>
         </div>
       </div>
-      <div class="popup popup_type_delete-card popup_is-animated">
+      <!-- <div class="popup popup_type_delete-card popup_is-animated">
         <div class="popup__content popup__content__delete-card">
           <button type="button" class="popup__close"></button>
           <h3 class="popup__title">Вы уверены?</h3>
@@ -142,7 +139,7 @@
             </button>
           </form>
         </div>
-      </div>
+      </div> -->
       <!-- Попап редактирования аватара -->
       <div class="popup popup_type_edit_avatar popup_is-animated">
         <div class="popup__content">
@@ -184,9 +181,10 @@
         <div class="card__description">
           <h2 class="card__title"></h2>
           <div class="card__like">
-          <button type="button" class="card__like-button"></button>
-          <span class="card__like-score"></span>
-        </div>
+            <button type="button" class="card__like-button"></button>
+            <span class="card__like-score"></span>
+          </div>
+        </div> 
       </li>
     </template>
   </body>

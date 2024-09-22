@@ -7,21 +7,33 @@ const config = {
   },
 };
 
-// // Тест для запроса данных
-// const fetchData = async () => {
-//   try {
-//     const response = await fetch(config.baseUrl, {
-//       headers: config.headers,
-//     });
-//     if (!response.ok) {
-//       throw new Error(`HTTP error! Status: ${response.status}`);
-//     }
-//     const result = await response.json();
-//     console.log(result); // Выводим результат запроса в консоль
-//   } catch (error) {
-//     console.error("Ошибка при запросе данных:", error); // Обработка ошибок
-//   }
-// };
+// Тест для запроса данных
+const fetchData = async () => {
+  try {
+    const response = await fetch(
+      "https://mesto.nomoreparties.co/v1/pwff-cohort-1/cards",
+      {
+        method: "GET",
+        headers: {
+          authorization: "d1dea879-99ce-4d94-9c28-33c71240ac81",
+          "Content-Type": "application/json",
+        },
+      },
+    );
+
+    if (!response.ok) {
+      throw new Error(`HTTP error! Status: ${response.status}`);
+    }
+
+    const result = await response.json();
+    console.log(result); // Выводим результат запроса в консоль
+  } catch (error) {
+    console.error("Ошибка при запросе данных:", error); // Обработка ошибок
+  }
+};
+
+// Вызов функции для тестирования
+fetchData();
 
 const checkResponseStatus = (res) => {
   if (res.ok) {
@@ -122,7 +134,7 @@ const deleteLike = (cardId) => {
 
 // Экспортируем функции и конфигурацию
 export {
-  // fetchData,
+  fetchData,
   fetchInitialCards,
   fetchCurrentUserProfile,
   createNewCard,

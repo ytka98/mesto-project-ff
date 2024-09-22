@@ -12,7 +12,6 @@
  * @param {function} openImagePopup - Функция для открытия попапа с изображением.
  * @returns {Element} card - Элемент карточки, готовый к отображению.
  */
-
 const createCard = (
   cardData,
   userId,

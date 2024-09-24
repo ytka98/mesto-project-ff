@@ -22,7 +22,14 @@ const handleDeleteCard = (card, cardId, deleteFromServer) => {
  * @param {function} deleteLike - Функция для удаления лайка.
  * @param {Element} likeScore - Элемент для отображения счетчика лайков.
  */
-const handleLikeToggle = (likeButton, cardData, userId, addLike, deleteLike, likeScore) => {
+const handleLikeToggle = (
+  likeButton,
+  cardData,
+  userId,
+  addLike,
+  deleteLike,
+  likeScore,
+) => {
   if (likeButton.classList.contains("card__like-button_is-active")) {
     deleteLike(cardData._id)
       .then(() => {
@@ -91,15 +98,22 @@ const createCard = (
 
   // Устанавливаем обработчики событий
   if (cardData.owner._id === userId) {
-    deleteButton.addEventListener("click", () => 
-      handleDeleteCard(card, cardData._id, deleteFromServer)
+    deleteButton.addEventListener("click", () =>
+      handleDeleteCard(card, cardData._id, deleteFromServer),
     );
   } else {
     deleteButton.style.display = "none"; // или deleteButton.remove();
   }
 
-  likeButton.addEventListener("click", () => 
-    handleLikeToggle(likeButton, cardData, userId, addLike, deleteLike, likeScore)
+  likeButton.addEventListener("click", () =>
+    handleLikeToggle(
+      likeButton,
+      cardData,
+      userId,
+      addLike,
+      deleteLike,
+      likeScore,
+    ),
   );
 
   return card;

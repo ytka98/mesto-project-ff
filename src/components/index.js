@@ -38,7 +38,7 @@
  * @param {Function} editProfile - Функция для редактирования профиля пользователя.
  * @param {Function} editAvatar - Функция для изменения аватара пользователя.
  * @param {Function} clearValidation - Функция для очистки ошибок валидации формы.
- * @param {Function} createNewContentCardPopup - Функция для открытия попапа с изображением карточки.
+ * @param {Function} openImageCardPopup - Функция для открытия попапа с изображением карточки.
  */
 import "../pages/index.css";
 import { createCard } from "../components/card.js";
@@ -46,7 +46,7 @@ import { showPopup, closePopup } from "../components/modal.js";
 import { enableValidation, clearValidation } from "../components/validation.js";
 
 import {
-  fetchData,
+  // fetchData,
   fetchInitialCards,
   fetchCurrentUserProfile,
   createNewCard,
@@ -91,6 +91,10 @@ const avatarPopupLink = avatarEditPopup.querySelector(
   ".popup__input_type_edit_avatar",
 );
 
+// КОНСТАНТЫ ДЛЯ FORMS
+const formsNewPlace = document.forms["new-place"];
+const formsEditAvatar = document.forms["edit-avatar-form"];
+
 const defaultValidationConfig = {
   formSelector: ".popup__form",
   inputSelector: ".popup__input",
@@ -127,7 +131,7 @@ Promise.all([fetchCurrentUserProfile(), fetchInitialCards()])
         deleteFromServer,
         addLike,
         deleteLike,
-        createNewContentCardPopup,
+        openImageCardPopup,
       );
       cardsList.append(cardElement);
     });
@@ -195,10 +199,10 @@ function handleNewCardForm(event) {
         deleteFromServer,
         addLike,
         deleteLike,
-        createNewContentCardPopup,
+        openImageCardPopup,
       );
       cardsList.prepend(cardElement);
-      document.forms["new-place"].reset(); // Очищаем форму
+      formsNewPlace.reset(); // Очищаем форму
       closePopup(newCardPopup); // Закрываем попап
       clearValidation(newCardPopup, defaultValidationConfig); // Очищаем валидацию
     })
@@ -227,7 +231,7 @@ function changeAvatar(event) {
     .then((data) => {
       profileAvatar.style.backgroundImage = `url('${data.avatar}')`;
       closePopup(avatarEditPopup); // Закрываем попап
-      document.forms["edit-avatar-form"].reset(); // Очищаем форму
+      formsEditAvatar.reset(); // Очищаем форму
       clearValidation(avatarEditPopup, defaultValidationConfig); // Очищаем валидацию
     })
     .catch((err) => {
@@ -242,7 +246,7 @@ function changeAvatar(event) {
 avatarEditPopup.addEventListener("submit", changeAvatar);
 
 // Открытие попапа с изображением карточки
-function createNewContentCardPopup(link, name) {
+function openImageCardPopup(link, name) {
   popupImage.src = link;
   popupImage.alt = name;
   popupCaption.textContent = name;

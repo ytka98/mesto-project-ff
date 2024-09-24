@@ -1,6 +1,6 @@
 // ОТКРЫТИЕ ПОПАПА ДЛЯ НОВОЙ КАРТОЧКИ И ДЛЯ РЕДАКТИРВОАНИЯ ПРОФИЛЯ
 const showPopup = (popup) => {
-  console.log("Попап открывается:", popup);
+  // console.log("Попап открывается:", popup);
   popup.classList.add("popup_is-opened");
   popup.addEventListener("click", handleClickOutsidePopup);
   document.addEventListener("keydown", handleEscKeyPress);
@@ -8,7 +8,7 @@ const showPopup = (popup) => {
 
 // ЗАКРЫТИЕ ПОПАПА ДЛЯ НОВОЙ КАРТОЧКИ И ДЛЯ РЕДАКТИРВОАНИЯ ПРОФИЛЯ
 const closePopup = (popup) => {
-  console.log("Попап закрывается:", popup);
+  // console.log("Попап закрывается:", popup);
   // Удаляем класс, чтобы скрыть попап
   popup.classList.remove("popup_is-opened");
   // Удаляем слушатели событий

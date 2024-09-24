@@ -15,7 +15,6 @@ const handleDeleteCard = (card, cardId, deleteFromServer) => {
 
 /**
  * ЛОГИКА ДОБАЛЕНИЯ ЛАЙКА.
- *
  * @param {Element} likeButton - Кнопка лайка.
  * @param {Object} cardData - Данные карточки.
  * @param {string} userId - Идентификатор пользователя.

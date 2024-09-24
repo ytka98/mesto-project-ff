@@ -21,7 +21,7 @@ const createCard = (
   deleteFromServer,
   addLike,
   deleteLike,
-  openImagePopup
+  openImagePopup,
 ) => {
   const card = cardTemplate.cloneNode(true).querySelector(".card");
   const cardImage = card.querySelector(".card__image");
@@ -30,13 +30,13 @@ const createCard = (
   const likeButton = card.querySelector(".card__like-button");
   const likeScore = card.querySelector(".card__like-score");
 
-  cardTitle.textContent = cardData.name || "Untitled"; 
+  cardTitle.textContent = cardData.name || "Untitled";
   cardImage.setAttribute("alt", cardData.name || "Untitled");
   cardImage.setAttribute("src", cardData.link);
   likeScore.textContent = cardData.likes.length;
 
   // Проверяем, лайкал ли пользователь карточку
-  const isLiked = cardData.likes.some(user => user._id === userId);
+  const isLiked = cardData.likes.some((user) => user._id === userId);
   if (isLiked) {
     likeButton.classList.add("card__like-button_is-active");
   }
@@ -51,7 +51,7 @@ const createCard = (
       .then(() => {
         card.remove();
       })
-      .catch(err => console.log(`Ошибка удаления карточки: ${err}`));
+      .catch((err) => console.log(`Ошибка удаления карточки: ${err}`));
   };
 
   // Логика лайков
@@ -60,18 +60,18 @@ const createCard = (
       deleteLike(cardData._id)
         .then(() => {
           likeButton.classList.remove("card__like-button_is-active");
-          cardData.likes = cardData.likes.filter(user => user._id !== userId);
-          likeScore.textContent = cardData.likes.length; 
+          cardData.likes = cardData.likes.filter((user) => user._id !== userId);
+          likeScore.textContent = cardData.likes.length;
         })
-        .catch(err => console.log(`Ошибка удаления лайка: ${err}`));
+        .catch((err) => console.log(`Ошибка удаления лайка: ${err}`));
     } else {
       addLike(cardData._id)
         .then(() => {
           likeButton.classList.add("card__like-button_is-active");
-          cardData.likes.push({ _id: userId }); 
-          likeScore.textContent = cardData.likes.length; 
+          cardData.likes.push({ _id: userId });
+          likeScore.textContent = cardData.likes.length;
         })
-        .catch(err => console.log(`Ошибка добавления лайка: ${err}`));
+        .catch((err) => console.log(`Ошибка добавления лайка: ${err}`));
     }
   };
 

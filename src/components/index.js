@@ -117,7 +117,7 @@ Promise.all([fetchCurrentUserProfile(), fetchInitialCards()])
     profileDescription.textContent = profileData.about;
     profileAvatar.style.backgroundImage = `url('${profileData.avatar}')`;
     cards.forEach((cardData) => {
-      console.log(cardData.link);
+      // console.log(cardData.link);
       const cardElement = createCard(
         cardData,
         userId,
@@ -249,5 +249,5 @@ function createNewContentCardPopup(link, name) {
   showPopup(imagePopup);
 }
 
-// // Вызываем начальную загрузку данных
-fetchData();
+// // Тест запроса данных с сервера
+// fetchData();
